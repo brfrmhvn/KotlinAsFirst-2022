@@ -40,7 +40,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 fun daysInMonth(month: Int, year: Int): Int {
-    val vys: Boolean = when {
+    val vys = when {
         year % 4 == 0 && (year % 100 != 0 || year % 400 == 0) -> true
         else -> false
     }
@@ -74,7 +74,7 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val mn: Int = min(a, min(b, c))
+    val mn: Int = minOf(a, b, c)
     val md: Int = when {
         a == mn -> min(b, c)
         b == mn -> min(a, c)
