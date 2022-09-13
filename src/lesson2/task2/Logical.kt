@@ -74,8 +74,8 @@ fun circleInside(
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val mn: Int = minOf(a, b, c)
-    val md: Int = when {
+    val mn = minOf(a, b, c)
+    val md = when {
         a == mn -> min(b, c)
         b == mn -> min(a, c)
         else -> min(a, b)
