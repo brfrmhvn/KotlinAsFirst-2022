@@ -2,6 +2,10 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -17,7 +21,7 @@ import kotlin.math.sqrt
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -57,12 +61,11 @@ fun isPerfect(n: Int): Boolean {
  *
  * Найти число вхождений цифры m в число n
  */
-fun digitCountInNumber(n: Int, m: Int): Int =
-    when {
-        n == m -> 1
-        n < 10 -> 0
-        else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
-    }
+fun digitCountInNumber(n: Int, m: Int): Int = when {
+    n == m -> 1
+    n < 10 -> 0
+    else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
+}
 
 /**
  * Простая (2 балла)
@@ -72,7 +75,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    return if (n == 0) 1 else {
+        var a = 0
+        var b = n
+        while (b > 0) {
+            b /= 10
+            a += 1
+        }
+        a
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -87,14 +100,26 @@ fun fib(n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var a = 2
+    while (n % a != 0) {
+        a += 1
+    }
+    return a
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var a: Int = n - 1
+    while (n % a != 0) {
+        a -= 1
+    }
+    return a
+}
 
 /**
  * Простая (2 балла)
@@ -120,7 +145,13 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k = 1
+    while (k % m != 0 || k % n != 0) {
+        k += 1
+    }
+    return k
+}
 
 /**
  * Средняя (3 балла)
@@ -129,7 +160,16 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var mn = 2
+    var a = false
+    while (!a) {
+        a = (m % mn == 0 && n % mn == 0)
+        if (mn < max(m, n)) mn += 1 else break
+    }
+    return !a
+}
+
 
 /**
  * Средняя (3 балла)
@@ -192,7 +232,29 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var kv = 1
+    var m = 1 //длина последовательности
+    var k = 1
+    if (n == 1) return 1 else while (n > m) {
+        k += 1
+        kv = sqr(k)
+        var a = kv
+        var l = 0
+        while (a > 0) {
+            a /= 10
+            l += 1
+        }
+        m += l
+    }
+    k = m - n
+    val a = 10.0
+    return when (k) {
+        0 -> kv % 10
+        else -> (kv / (a.pow(k)) % 10).roundToInt()
+    }
+}
+
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +265,37 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var m = 2
+    var l: Int  //длина числа фибоначчи
+    var k: Int
+    if (n == 1 || n == 2) return 1 else while (n > m) {
+        if (fib1 <= fib2) {
+            fib1 += fib2
+            k = fib1
+            l = 0
+            while (k > 0) {
+                k /= 10
+                l += 1
+            }
+        } else {
+            fib2 += fib1
+            k = fib2
+            l = 0
+            while (k > 0) {
+                k /= 10
+                l += 1
+            }
+        }
+        m += l
+    }
+    k = m - n
+    val a = 10.0
+    return when (k) {
+        0 -> if (fib1 > fib2) return fib1 % 10 else fib2 % 10
+        else
+        -> if (fib1 > fib2) return (fib1 / (a.pow(k)) % 10).roundToInt() else (fib2 / (a.pow(k)) % 10).roundToInt()
+    }
+}
