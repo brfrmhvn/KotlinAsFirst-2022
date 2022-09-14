@@ -3,10 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import kotlin.math.max
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -79,7 +76,7 @@ fun digitNumber(n: Int): Int {
     return if (n == 0) 1 else {
         var a = 0
         var b = n
-        while (b > 0) {
+        while (b != 0) {
             b /= 10
             a += 1
         }
@@ -162,12 +159,18 @@ fun collatzSteps(x: Int): Int = TODO()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
-    while (k % m != 0 || k % n != 0) {
-        k += 1
+    var a = m
+    var b = n
+    while (a != 0 && b != 0) {
+        if (a > b) {
+            a %= b
+        } else {
+            b %= a
+        }
     }
-    return k
+    return (m * n / (a + b))
 }
+
 
 /**
  * Средняя (3 балла)
@@ -264,11 +267,8 @@ fun squareSequenceDigit(n: Int): Int {
         m += l
     }
     k = m - n
-    val a = 10.0
-    return when (k) {
-        0 -> kv % 10
-        else -> (kv / (a.pow(k)) % 10).roundToInt()
-    }
+    val a = (10.0).pow(k).roundToInt()
+    return if (k == 0) kv % 10 else ((kv / a) % 10)
 }
 
 
@@ -308,10 +308,10 @@ fun fibSequenceDigit(n: Int): Int {
         m += l
     }
     k = m - n
-    val a = 10.0
+    val a = (10.0).pow(k).roundToInt()
     return when (k) {
         0 -> if (fib1 > fib2) return fib1 % 10 else fib2 % 10
         else
-        -> if (fib1 > fib2) return (fib1 / (a.pow(k)) % 10).roundToInt() else (fib2 / (a.pow(k)) % 10).roundToInt()
+        -> if (fib1 > fib2) return (fib1 / a % 10) else (fib2 / a % 10)
     }
 }
