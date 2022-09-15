@@ -78,7 +78,7 @@ fun digitNumber(n: Int): Int {
         var b = n
         while (b != 0) {
             b /= 10
-            a += 1
+            a++
         }
         a
     }
@@ -98,10 +98,10 @@ fun fib(n: Int): Int {
         while (m != n) {
             if (fib1 <= fib2) {
                 fib1 += fib2
-                m += 1
+                m++
             } else {
                 fib2 += fib1
-                m += 1
+                m++
             }
         }
         if (fib1 < fib2) fib2 else fib1
@@ -116,7 +116,7 @@ fun fib(n: Int): Int {
 fun minDivisor(n: Int): Int {
     var a = 2
     while (n % a != 0) {
-        a += 1
+        a++
     }
     return a
 }
@@ -129,7 +129,7 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     var a: Int = n - 1
     while (n % a != 0) {
-        a -= 1
+        a--
     }
     return a
 }
@@ -184,7 +184,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     var a = false
     while (!a) {
         a = (m % mn == 0 && n % mn == 0)
-        if (mn < max(m, n)) mn += 1 else break
+        if (mn < max(m, n)) mn++ else break
     }
     return !a
 }
@@ -256,13 +256,13 @@ fun squareSequenceDigit(n: Int): Int {
     var m = 1 //длина последовательности
     var k = 1
     if (n == 1) return 1 else while (n > m) {
-        k += 1
+        k++
         kv = sqr(k)
         var a = kv
         var l = 0
         while (a > 0) {
             a /= 10
-            l += 1
+            l++
         }
         m += l
     }
@@ -294,7 +294,7 @@ fun fibSequenceDigit(n: Int): Int {
             l = 0
             while (k > 0) {
                 k /= 10
-                l += 1
+                l++
             }
         } else {
             fib2 += fib1
@@ -302,7 +302,7 @@ fun fibSequenceDigit(n: Int): Int {
             l = 0
             while (k > 0) {
                 k /= 10
-                l += 1
+                l++
             }
         }
         m += l
