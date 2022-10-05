@@ -251,18 +251,19 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+
 fun squareSequenceDigit(n: Int): Int {
     var kv = 1
     var m = 1 //длина последовательности
     var k = 1
     if (n == 1) return 1 else while (n > m) {
-        k++
+        k += 1
         kv = sqr(k)
         var a = kv
         var l = 0
         while (a > 0) {
             a /= 10
-            l++
+            l += 1
         }
         m += l
     }
