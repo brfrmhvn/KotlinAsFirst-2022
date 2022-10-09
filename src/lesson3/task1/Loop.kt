@@ -4,6 +4,12 @@ package lesson3.task1
 
 import lesson1.task1.sqr
 import kotlin.math.*
+fun powInt(k: Int): Int {
+    var a = 1
+    for (i in 1..k) {
+        a = a*10 }
+    return a
+}
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -268,7 +274,7 @@ fun squareSequenceDigit(n: Int): Int {
         m += l
     }
     k = m - n
-    val a = (10.0).pow(k).roundToInt()
+    val a = powInt(k)
     return if (k == 0) kv % 10 else ((kv / a) % 10)
 }
 
@@ -309,7 +315,7 @@ fun fibSequenceDigit(n: Int): Int {
         m += l
     }
     k = m - n
-    val a = (10.0).pow(k).roundToInt()
+    val a = powInt(k)
     return when (k) {
         0 -> if (fib1 > fib2) return fib1 % 10 else fib2 % 10
         else
