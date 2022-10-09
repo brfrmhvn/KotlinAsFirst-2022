@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.util.StringJoiner
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -127,7 +128,12 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    val a = list.size
+    var b = list.sum()
+    if (b > 0.0) b /= a.toDouble()
+    return b
+}
 
 /**
  * Средняя (3 балла)
@@ -137,7 +143,16 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val a = mean(list)
+    val b = list.size
+    if (b > 0) {
+        for (i in 0 until b) {
+            list[i] -= a
+        }
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -168,7 +183,17 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    val a = list.size
+    if (a > 0) {
+        var b: Int = list[0]
+        for (i in 1 until a) {
+            b += list[i]
+            list[i] = b
+        }
+    }
+    return list
+}
 
 /**
  * Средняя (3 балла)
@@ -186,7 +211,21 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var a = ""
+    var b = n
+    while (b > 1) {
+        for (i in 2..n) {
+            if (b % i == 0) {
+                b /= i
+                a += i.toString()
+                if (a.isNotEmpty()) a += "*"
+                break
+            }
+        }
+    }
+    return a.substring(0, (a.length - 1))
+}
 
 /**
  * Средняя (3 балла)
