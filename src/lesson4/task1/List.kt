@@ -308,7 +308,7 @@ fun roman(n: Int): String {
     if (num / 10 == 9) {
         romanlst[2] += "XC"
         num %= 90
-    } else if ((num % 10) in 5..8) {
+    } else if ((num / 10) in 5..8) {
         romanlst[2] += "L"
         num %= 50
     }
