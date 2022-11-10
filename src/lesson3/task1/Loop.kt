@@ -7,7 +7,8 @@ import kotlin.math.*
 fun powInt(k: Int): Int {
     var a = 1
     for (i in 1..k) {
-        a = a*10 }
+        a *= 10
+    }
     return a
 }
 
