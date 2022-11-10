@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.util.StringJoiner
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -129,10 +128,10 @@ fun abs(v: List<Double>): Double = TODO()
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val a = list.size
-    var b = list.sum()
-    if (b > 0.0) b /= a.toDouble()
-    return b
+    val size = list.size
+    var sum = list.sum()
+    if (sum != 0.0) sum /= size.toDouble()
+    return sum
 }
 
 /**
@@ -144,11 +143,11 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val a = mean(list)
-    val b = list.size
-    if (b > 0) {
-        for (i in 0 until b) {
-            list[i] -= a
+    val m = mean(list)
+    val size = list.size
+    if (size > 0) {
+        for (i in 0 until size) {
+            list[i] -= m
         }
     }
     return list
@@ -280,7 +279,69 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var num: Int
+    val romanlst = mutableListOf<String>("", "", "", "")
+    //тысячи
+    for (i in 1..n / 1000) {
+        romanlst[0] += "M"
+    }
+    num = n % 1000
+    //пятьсот
+    if ((num / 100) == 9) {
+        romanlst[1] += "CM"
+        num %= 900
+    } else if ((num / 100) in 5..8) {
+        romanlst[1] += "D"
+        num %= 500
+    }
+    //сотни
+    if ((num / 100) == 4) {
+        romanlst[1] += "CD"
+    } else {
+        for (i in 1..num / 100) {
+            romanlst[1] += "C"
+        }
+    }
+    num %= 100
+    //пятьдесят
+    if (num / 10 == 9) {
+        romanlst[2] += "XC"
+        num %= 90
+    } else if ((num % 10) in 5..8) {
+        romanlst[2] += "L"
+        num %= 50
+    }
+    //десятки
+    if ((num / 10) == 4) {
+        romanlst[2] += "XL"
+    } else {
+        for (i in 1..num / 10) {
+            romanlst[2] += "X"
+        }
+    }
+    num %= 10
+    //единицы
+    when (num) {
+        in 1..3 -> for (i in 1..num) {
+            romanlst[3] += "I"
+        }
+
+        4 -> romanlst[3] += "IV"
+        5 -> romanlst[3] += "V"
+        in 6..8 -> {
+            romanlst[3] += "V"
+            for (i in 1..num % 5) {
+                romanlst[3] += "I"
+            }
+        }
+
+        9 -> romanlst[3] += "IX"
+    }
+    return romanlst.fold("") { previousResult, element ->
+        previousResult + element
+    }
+}
 
 /**
  * Очень сложная (7 баллов)
