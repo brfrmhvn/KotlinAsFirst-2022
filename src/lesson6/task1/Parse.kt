@@ -94,8 +94,8 @@ fun dateStrToDigit(str: String): String {
             "ноября" to "11",
             "декабря" to "12"
         )
-        try {
-            val checkdate = str.split(" ")
+        val checkdate = str.split(" ")
+        if (checkdate.size == 3) {
             val date = checkdate.toMutableList()
             for ((month, monthnum) in months) {
                 if (date[1] == month) {
@@ -110,8 +110,6 @@ fun dateStrToDigit(str: String): String {
                     dateDigit = date.joinToString(separator = ".")
                 }
             }
-        } catch (e: NumberFormatException) {
-            return ""
         }
     }
     return dateDigit
