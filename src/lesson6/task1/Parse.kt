@@ -266,7 +266,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int { //я осознаю что решение не является эффективным! пожалуйста не снимайте баллы :D
+fun fromRoman(roman: String): Int { //я осознаю что решение не является эффективным!
     var fromroman = -1
     for (i in 1..3999) {
         if (roman(i).equals(roman)) fromroman = i
