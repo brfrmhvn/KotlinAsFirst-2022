@@ -189,7 +189,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var bestjump = -1
+    if (jumps.contains(Regex("""[0123456789]"""))) {
+        if (!jumps.contains(Regex("""[^ 0123456789%-]"""))) {
+            val jump = (jumps.split(" ").toMutableSet() - listOf("%", "-")).toMutableList()
+            val jumpnum = mutableListOf<Int>()
+            if (jump.any()) {
+                for (i in jump.indices) {
+                    jumpnum.add(jump[i].toInt())
+                }
+                bestjump = jumpnum.max()
+            }
+        }
+    }
+    return bestjump
+}
 
 /**
  * Сложная (6 баллов)
@@ -289,3 +304,4 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
