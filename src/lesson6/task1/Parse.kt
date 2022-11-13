@@ -94,20 +94,24 @@ fun dateStrToDigit(str: String): String {
             "ноября" to "11",
             "декабря" to "12"
         )
-        val checkdate = str.split(" ")
-        val date = checkdate.toMutableList()
-        for ((month, monthnum) in months) {
-            if (date[1] == month) {
-                date[1] = monthnum
-            }
-        }
-        if (checkdate[1] != date[1]) {
-            if (date[0].toInt() <= daysInMonth((date[1].toInt()), date[2].toInt())) {
-                if (date[0].length < 2) {
-                    date[0] = "0" + date[0]
+        try {
+            val checkdate = str.split(" ")
+            val date = checkdate.toMutableList()
+            for ((month, monthnum) in months) {
+                if (date[1] == month) {
+                    date[1] = monthnum
                 }
-                dateDigit = date.joinToString(separator = ".")
             }
+            if (checkdate[1] != date[1]) {
+                if (date[0].toInt() <= daysInMonth((date[1].toInt()), date[2].toInt())) {
+                    if (date[0].length < 2) {
+                        date[0] = "0" + date[0]
+                    }
+                    dateDigit = date.joinToString(separator = ".")
+                }
+            }
+        } catch (e: NumberFormatException) {
+            return ""
         }
     }
     return dateDigit
@@ -125,7 +129,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     var dateStr = ""
-    if (digital.length >= 8) { // самая короткая дата 01.01.01 (?)
+    if (digital.length >= 7) { // самая короткая дата 01.01.1
         val months = mapOf(
             "января" to "01",
             "февраля" to "02",
