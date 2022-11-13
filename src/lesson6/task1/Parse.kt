@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+import java.lang.NumberFormatException
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -74,7 +77,41 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    var dateDigit = ""
+    if (str.length >= 7) { // самая короткая дата - 1 мая 1(года)
+        val months = mapOf(
+            "января" to "01",
+            "февраля" to "02",
+            "марта" to "03",
+            "апреля" to "04",
+            "мая" to "05",
+            "июня" to "06",
+            "июля" to "07",
+            "августа" to "08",
+            "сентября" to "09",
+            "октября" to "10",
+            "ноября" to "11",
+            "декабря" to "12"
+        )
+        val checkdate = str.split(" ")
+        val date = checkdate.toMutableList()
+        for ((month, monthnum) in months) {
+            if (date[1] == month) {
+                date[1] = monthnum
+            }
+        }
+        if (checkdate[1] != date[1]) {
+            if (date[0].toInt() <= daysInMonth((date[1].toInt()), date[2].toInt())) {
+                if (date[0].length < 2) {
+                    date[0] = "0" + date[0]
+                }
+                dateDigit = date.joinToString(separator = ".")
+            }
+        }
+    }
+    return dateDigit
+}
 
 /**
  * Средняя (4 балла)
@@ -86,7 +123,43 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var dateStr = ""
+    if (digital.length >= 8) { // самая короткая дата 01.01.01 (?)
+        val months = mapOf(
+            "января" to "01",
+            "февраля" to "02",
+            "марта" to "03",
+            "апреля" to "04",
+            "мая" to "05",
+            "июня" to "06",
+            "июля" to "07",
+            "августа" to "08",
+            "сентября" to "09",
+            "октября" to "10",
+            "ноября" to "11",
+            "декабря" to "12"
+        )
+        val checkdate = digital.split(".").toMutableList()
+        val date = checkdate.toMutableList()
+        try {
+            date[0] = (date[0].toInt()).toString()
+            for ((month, monthnum) in months) {
+                if (date[1] == monthnum) {
+                    date[1] = month
+                }
+            }
+            if (checkdate[1] != date[1]) {
+                if (date[0].toInt() <= daysInMonth((checkdate[1].toInt()), date[2].toInt()) && checkdate.size == 3) {
+                    dateStr = date.joinToString(separator = " ")
+                }
+            }
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+    }
+    return dateStr
+}
 
 /**
  * Средняя (4 балла)
