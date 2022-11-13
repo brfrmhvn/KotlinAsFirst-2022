@@ -241,8 +241,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val repeat = mutableMapOf<String, Int>()
     for (i in (list.size - 1) downTo 0) {
+        var num = 1
         for (k in (i + 1) until list.size) {
-            var num = 1
             if (list[i] == list[k]) {
                 num += 1
             }
