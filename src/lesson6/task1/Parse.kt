@@ -78,23 +78,23 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+val months = mapOf(
+    "января" to "01",
+    "февраля" to "02",
+    "марта" to "03",
+    "апреля" to "04",
+    "мая" to "05",
+    "июня" to "06",
+    "июля" to "07",
+    "августа" to "08",
+    "сентября" to "09",
+    "октября" to "10",
+    "ноября" to "11",
+    "декабря" to "12"
+)
 fun dateStrToDigit(str: String): String {
     var dateDigit = ""
     if (str.length >= 7) { // самая короткая дата - 1 мая 1(года)
-        val months = mapOf(
-            "января" to "01",
-            "февраля" to "02",
-            "марта" to "03",
-            "апреля" to "04",
-            "мая" to "05",
-            "июня" to "06",
-            "июля" to "07",
-            "августа" to "08",
-            "сентября" to "09",
-            "октября" to "10",
-            "ноября" to "11",
-            "декабря" to "12"
-        )
         val checkdate = str.split(" ")
         if (checkdate.size == 3) {
             val date = checkdate.toMutableList()
@@ -129,20 +129,6 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     var dateStr = ""
     if (digital.length >= 7) { // самая короткая дата 01.01.1
-        val months = mapOf(
-            "января" to "01",
-            "февраля" to "02",
-            "марта" to "03",
-            "апреля" to "04",
-            "мая" to "05",
-            "июня" to "06",
-            "июля" to "07",
-            "августа" to "08",
-            "сентября" to "09",
-            "октября" to "10",
-            "ноября" to "11",
-            "декабря" to "12"
-        )
         val checkdate = digital.split(".").toMutableList()
         val date = checkdate.toMutableList()
         try {
