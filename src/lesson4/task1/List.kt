@@ -280,67 +280,30 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var num: Int
-    val romanlst = mutableListOf<String>("", "", "", "")
-    //тысячи
-    for (i in 1..n / 1000) {
-        romanlst[0] += "M"
-    }
-    num = n % 1000
-    //пятьсот
-    if ((num / 100) == 9) {
-        romanlst[1] += "CM"
-        num %= 900
-    } else if ((num / 100) in 5..8) {
-        romanlst[1] += "D"
-        num %= 500
-    }
-    //сотни
-    if ((num / 100) == 4) {
-        romanlst[1] += "CD"
-    } else {
-        for (i in 1..num / 100) {
-            romanlst[1] += "C"
+    val toRoman = mapOf(
+        1000 to "M",
+        900 to "CM",
+        500 to "D",
+        400 to "CD",
+        100 to "C",
+        90 to "XC",
+        50 to "L",
+        40 to "XL",
+        10 to "X",
+        9 to "IX",
+        5 to "V",
+        4 to "IV",
+        1 to "I"
+    )
+    var romanstr = ""
+    var n1 = n
+    for ((number, roman) in toRoman) {
+        while (n1 / number > 0) {
+            romanstr += roman
+            n1 -= number
         }
     }
-    num %= 100
-    //пятьдесят
-    if (num / 10 == 9) {
-        romanlst[2] += "XC"
-        num %= 90
-    } else if ((num / 10) in 5..8) {
-        romanlst[2] += "L"
-        num %= 50
-    }
-    //десятки
-    if ((num / 10) == 4) {
-        romanlst[2] += "XL"
-    } else {
-        for (i in 1..num / 10) {
-            romanlst[2] += "X"
-        }
-    }
-    num %= 10
-    //единицы
-    when (num) {
-        in 1..3 -> for (i in 1..num) {
-            romanlst[3] += "I"
-        }
-
-        4 -> romanlst[3] += "IV"
-        5 -> romanlst[3] += "V"
-        in 6..8 -> {
-            romanlst[3] += "V"
-            for (i in 1..num % 5) {
-                romanlst[3] += "I"
-            }
-        }
-
-        9 -> romanlst[3] += "IX"
-    }
-    return romanlst.fold("") { previousResult, element ->
-        previousResult + element
-    }
+    return romanstr
 }
 
 /**
