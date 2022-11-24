@@ -4,7 +4,6 @@ package lesson6.task1
 
 import lesson2.task2.daysInMonth
 import java.lang.NumberFormatException
-import lesson4.task1.roman
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -252,13 +251,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int { //я осознаю что решение не является эффективным!
-    var fromroman = -1
-    for (i in 1..3999) {
-        if (roman(i).equals(roman)) fromroman = i
-    }
-    return fromroman
-}
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная (7 баллов)
