@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -128,7 +129,9 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) = a - b
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
+    b.onEach { a.remove(it.key, it.value) }
+}
 
 /**
  * Простая (2 балла)
@@ -209,7 +212,11 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.toList().containsAll(chars)
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = when {
+    word.isEmpty() -> true
+    chars.isNotEmpty() -> word.toList().containsAll(chars)
+    else -> false
+}
 
 /**
  * Средняя (4 балла)
@@ -237,7 +244,20 @@ fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it 
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val anagram = mutableMapOf<Set<Char>, Int>()
+    if (words.isNotEmpty()) {
+        anagram[words[0].toSet()] = words[0].length
+        for (i in 1 until words.size) {
+            if (anagram[words[i].toSet()] == null || anagram[words[i].toSet()] != words[0].length) {
+                anagram[words[i].toSet()] = words[i].length
+            } else {
+                return true
+            }
+        }
+    }
+    return false
+}
 
 /**
  * Сложная (5 баллов)
