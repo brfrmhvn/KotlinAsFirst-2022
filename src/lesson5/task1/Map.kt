@@ -245,9 +245,9 @@ fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it 
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val map = (words.groupBy({ it.length }, { it.toSortedSet() })).filter { it.value.size > 1 }
-    for ((_, list) in map) {
-        if (list.distinct().count() == 1) {
+    val lenToChar = (words.groupBy({ it.length }, { it.toSortedSet() })).filter { it.value.size > 1 }
+    for ((_, list) in lenToChar) {
+        if (list.distinct().count() != list.size) {
             return true
         }
     }
