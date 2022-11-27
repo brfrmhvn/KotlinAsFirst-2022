@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.util.*
+
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -179,9 +181,9 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
         stockPrices.groupBy({ it.first },
             { it.second })[it]!!.average()
     }
-    /*{
-    val actionsAndAllPrices = stockPrices.groupBy({ it.first }, { it.second })
-    return (actionsAndAllPrices.keys.associateWith { actionsAndAllPrices[it]!!.average() })
+/*{
+val actionsAndAllPrices = stockPrices.groupBy({ it.first }, { it.second })
+return (actionsAndAllPrices.keys.associateWith { actionsAndAllPrices[it]!!.average() })
 }*/
 
 /**
@@ -211,7 +213,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean = when {
-    chars.toSet().containsAll(word.toSet()) -> true
+    word.length == 1 || chars.toString().uppercase(Locale.getDefault()).toSet().containsAll(word.toSet()) -> true
+    chars.toSortedSet().toString().equals(word.toSortedSet().toString(), ignoreCase = true) -> true
     else -> false
 }
 
@@ -241,7 +244,15 @@ fun extractRepeats(list: List<String>): Map<String, Int> = list.groupingBy { it 
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val map = (words.groupBy({ it.length }, { it.toSortedSet() })).filter { it.value.size > 1 }
+    for ((_, list) in map) {
+        if (list.distinct().count() == 1) {
+            return true
+        }
+    }
+    return false
+}
 
 /**
  * Сложная (5 баллов)
