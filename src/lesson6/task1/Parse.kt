@@ -235,11 +235,12 @@ fun firstDuplicateIndex(str: String): Int {
                 .filter { it.value.size > 1 }
         if (repeatInARow.any()) {
             var ind = -1
+            var breakFor = true
             for ((_, index) in repeatInARow) {
                 for (i in 1 until index.size) {
-                    if (index[i] - index[i-1] == 1) {
+                    if (index[i] - index[i-1] == 1 && breakFor) {
                         ind = index[i-1]
-                        break
+                        breakFor = false
                     }
                 }
                 }
