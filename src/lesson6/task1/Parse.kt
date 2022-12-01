@@ -91,18 +91,19 @@ val months = mapOf(
     "ноября" to "11",
     "декабря" to "12"
 )
+
 fun dateStrToDigit(str: String): String {
     var dateDigit = ""
     if (str.length >= 7) { // самая короткая дата - 1 мая 1(года)
-        val checkdate = str.split(" ")
-        if (checkdate.size == 3) {
-            val date = checkdate.toMutableList()
-            for ((month, monthnum) in months) {
+        val checkDate = str.split(" ")
+        if (checkDate.size == 3) {
+            val date = checkDate.toMutableList()
+            for ((month, monthNum) in months) {
                 if (date[1] == month) {
-                    date[1] = monthnum
+                    date[1] = monthNum
                 }
             }
-            if (checkdate[1] != date[1]) {
+            if (checkDate[1] != date[1]) {
                 if (date[0].toInt() <= daysInMonth((date[1].toInt()), date[2].toInt())) {
                     if (date[0].length < 2) {
                         date[0] = "0" + date[0]
@@ -128,17 +129,17 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     var dateStr = ""
     if (digital.length >= 7) { // самая короткая дата 01.01.1
-        val checkdate = digital.split(".").toMutableList()
-        val date = checkdate.toMutableList()
+        val checkDate = digital.split(".").toMutableList()
+        val date = checkDate.toMutableList()
         try {
             date[0] = (date[0].toInt()).toString()
-            for ((month, monthnum) in months) {
-                if (date[1] == monthnum) {
+            for ((month, monthNum) in months) {
+                if (date[1] == monthNum) {
                     date[1] = month
                 }
             }
-            if (checkdate[1] != date[1]) {
-                if (date[0].toInt() <= daysInMonth((checkdate[1].toInt()), date[2].toInt()) && checkdate.size == 3) {
+            if (checkDate[1] != date[1]) {
+                if (date[0].toInt() <= daysInMonth((checkDate[1].toInt()), date[2].toInt()) && checkDate.size == 3) {
                     dateStr = date.joinToString(separator = " ")
                 }
             }
@@ -180,12 +181,12 @@ fun bestLongJump(jumps: String): Int {
     if (jumps.contains(Regex("""[0123456789]"""))) {
         if (!jumps.contains(Regex("""[^ 0123456789%-]"""))) {
             val jump = (jumps.split(" ").toMutableSet() - listOf("%", "-")).toMutableList()
-            val jumpnum = mutableListOf<Int>()
+            val jumpNum = mutableListOf<Int>()
             if (jump.any()) {
                 for (i in jump.indices) {
-                    jumpnum.add(jump[i].toInt())
+                    jumpNum.add(jump[i].toInt())
                 }
-                bestjump = jumpnum.max()
+                bestjump = jumpNum.max()
             }
         }
     }
@@ -238,7 +239,15 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var mostExp = ""
+    if (description.contains(Regex("""([А-я]*\s[0-9]*(\.[0-9])?)"""))) {
+        val mapOfProd =
+            description.split("; ").map { it.split(" ") }.associateBy({ it.first() }, { it.last().toDouble() })
+        mostExp = mapOfProd.maxWith { x, y -> x.value.compareTo(y.value) }.key
+    }
+    return mostExp
+}
 
 /**
  * Сложная (6 баллов)
@@ -252,6 +261,15 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
+
+/* несерьезное решение для смотреть и плакать что так нельзя
+fun fromRoman(roman: String): Int {
+    var fromRoman = -1
+    for (i in 1..3999) {
+        if (roman(i).equals(roman)) fromRoman = i
+    }
+    return fromRoman
+}*/
 
 /**
  * Очень сложная (7 баллов)
