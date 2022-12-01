@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import java.util.*
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -210,7 +211,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = (word.lowercase(Locale.getDefault()).toSet().intersect(
+    chars.map { it.lowercaseChar() }.toSet()
+) == word.lowercase(Locale.getDefault()).toSet())
 
 /**
  * Средняя (4 балла)
