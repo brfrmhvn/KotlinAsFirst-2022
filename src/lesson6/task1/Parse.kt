@@ -234,7 +234,7 @@ fun firstDuplicateIndex(str: String): Int {
             ((string.mapIndexed { index, word -> index to word }).groupBy({ it.second }, { it.first })).toMap()
                 .filter { it.value.size > 1 }
         if (repeatInARow.any()) {
-            var ind = 0
+            var ind = -1
             for ((_, index) in repeatInARow) {
                 for (i in 1 until index.size) {
                     if (index[i] - index[i-1] == 1) {
@@ -246,7 +246,7 @@ fun firstDuplicateIndex(str: String): Int {
             for (i in 0 until ind){
                 indexI += string[i].length
             }
-            indexI += 1 + ind
+            if (ind != -1) indexI += 1 + ind
             }
         }
         return indexI
