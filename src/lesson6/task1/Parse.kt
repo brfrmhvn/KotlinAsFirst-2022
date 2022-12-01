@@ -4,6 +4,7 @@ package lesson6.task1
 
 import lesson2.task2.daysInMonth
 import java.lang.NumberFormatException
+import lesson5.task1.whoAreInBoth
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -226,7 +227,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var index = -1
+    if (str.contains(Regex("""[А-я]*"""))) {
+        if (str.split(" ") != str.split(" ").toSet()) {
+            val ind = (str.split(" ")).indexOf(whoAreInBoth(str.split(" "), str.split(" ").toSet().toList())[0])
+            for (i in 0 until ind) {
+                index += str.split(" ")[i].length
+            }
+            index += ind
+        }
+    }
+    return index
+}
 
 /**
  * Сложная (6 баллов)
