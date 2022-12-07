@@ -306,7 +306,6 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val numToIndex = list.mapIndexed { index: Int, num: Int -> index to num }.toMap()
-    print(numToIndex)
     for ((index, num) in numToIndex) {
         var i = index + 1
         while (i < numToIndex.size) {
@@ -341,4 +340,3 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
