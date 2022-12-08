@@ -169,14 +169,42 @@ fun centerFile(inputName: String, outputName: String) {
  * 6) Число пробелов между более левой парой соседних слов должно быть больше или равно числу пробелов
  *    между более правой парой соседних слов.
  *
- * Следует учесть, что входной файл может содержать последовательности из нескольких пробелов  между слвоами. Такие
+ * Следует учесть, что входной файл может содержать последовательности из нескольких пробелов  между словами. Такие
  * последовательности следует учитывать при выравнивании и при необходимости избавляться от лишних пробелов.
  * Из этого следуют следующие правила:
  * 7) В самой длинной строке каждая пара соседних слов должна быть отделена В ТОЧНОСТИ одним пробелом
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val maxLen = File(inputName).readLines()
+        .maxOfOrNull {
+            (it.trim().split(" ")).joinToString(" ").length
+        } //длина самой длинной строки с одиночными пробелами
+    File(outputName).bufferedWriter().use { writer ->
+        File(inputName).forEachLine { line ->
+            val lineLen = line.trim().split(" ").joinToString("").length //длина строки без пробелов
+            val resultLine = line.trim().split(" ").toMutableList() // (resultLine.size - 1) - кол-во мест для пробелов
+            if (resultLine.size > 2) {
+                val spaces =
+                    maxLen?.minus(lineLen)
+                        ?.minus((resultLine.size - 1))//количество пробелов которые надо добавить (помимо обяз. 1 пробела между каждым словом)
+                val leftSpaceLen = 1 + (spaces?.div((resultLine.size - 1))!! + 1)
+                val rightSpaceLen = leftSpaceLen - 1
+                val leftSpaceNum = spaces % (resultLine.size - 1)
+                var count = 0
+                for (i in 1 until (resultLine.size + (resultLine.size - 1)) step 2) {
+                    if (count < leftSpaceNum) {
+                        resultLine.add(i, " ".repeat(leftSpaceLen))
+                        count += 1
+                    } else {
+                        resultLine.add(i, " ".repeat(rightSpaceLen))
+                    }
+                }
+            }
+            writer.write(resultLine.joinToString(""))
+            writer.newLine()
+        }
+    }
 }
 
 /**
