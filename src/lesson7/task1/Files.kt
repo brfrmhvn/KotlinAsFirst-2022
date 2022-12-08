@@ -184,7 +184,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         File(inputName).forEachLine { line ->
             val lineLen = line.trim().split(" ").joinToString("").length //длина строки без пробелов
             val resultLine = line.trim().split(" ").toMutableList() // (resultLine.size - 1) - кол-во мест для пробелов
-            if (resultLine.size > 2) {
+            if (resultLine.size > 1) {
                 val spaces =
                     maxLen?.minus(lineLen)
                         ?.minus((resultLine.size - 1))//количество пробелов которые надо добавить (помимо обяз. 1 пробела между каждым словом)
