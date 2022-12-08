@@ -178,12 +178,12 @@ fun centerFile(inputName: String, outputName: String) {
 fun alignFileByWidth(inputName: String, outputName: String) {
     val maxLen = File(inputName).readLines()
         .maxOfOrNull {
-            (it.trim().split(" ")).joinToString(" ").length
+            (it.trim().split(Regex("""\s+"""))).joinToString(" ").length
         } //длина самой длинной строки с одиночными пробелами
     File(outputName).bufferedWriter().use { writer ->
         File(inputName).forEachLine { line ->
-            val lineLen = line.trim().split(" ").joinToString("").length //длина строки без пробелов
-            val resultLine = line.trim().split(" ").toMutableList() // (resultLine.size - 1) - кол-во мест для пробелов
+            val lineLen = line.trim().split(Regex("""\s+""")).joinToString("").length //длина строки без пробелов
+            val resultLine = line.trim().split(Regex("""\s+""")).toMutableList() // (resultLine.size - 1) - кол-во мест для пробелов
             if (resultLine.size > 1) {
                 val spaces =
                     maxLen?.minus(lineLen)
