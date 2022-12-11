@@ -82,14 +82,16 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double =
+        if (sqrt(sqr(center.x - other.center.x) + sqr(center.y - other.center.y)) > (radius + other.radius))
+            sqrt(sqr(center.x - other.center.x) + sqr(center.y - other.center.y)) - (radius + other.radius) else 0.0
 
     /**
      * Тривиальная (1 балл)
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = sqrt(sqr(center.x - p.x) + sqr(center.y - p.y)) <= radius
 }
 
 /**
@@ -117,7 +119,13 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle = Circle(
+    Point(
+        (diameter.begin.x + diameter.end.x) / 2,
+        (diameter.begin.y + diameter.end.y) / 2
+    ),
+    sqrt(sqr(diameter.begin.x - (diameter.begin.x + diameter.end.x) / 2) + sqr(diameter.begin.y - (diameter.begin.y + diameter.end.y) / 2))
+)
 
 /**
  * Прямая, заданная точкой point и углом наклона angle (в радианах) по отношению к оси X.
@@ -138,7 +146,11 @@ class Line private constructor(val b: Double, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point =
+        Point(
+            (other.b * cos(this.angle) - this.b * cos(other.angle)) / sin(this.angle - other.angle),
+            (other.b * sin(this.angle) - this.b * sin(other.angle)) / sin(this.angle - other.angle)
+        )
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -163,7 +175,7 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = TODO() //Line(Point(), atan((b.y - a.y) / (b.x - a.x)))
 
 /**
  * Сложная (5 баллов)

@@ -183,7 +183,8 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     File(outputName).bufferedWriter().use { writer ->
         File(inputName).forEachLine { line ->
             val lineLen = line.trim().split(Regex("""\s+""")).joinToString("").length //длина строки без пробелов
-            val resultLine = line.trim().split(Regex("""\s+""")).toMutableList() // (resultLine.size - 1) - кол-во мест для пробелов
+            val resultLine =
+                line.trim().split(Regex("""\s+""")).toMutableList() // (resultLine.size - 1) - кол-во мест для пробелов
             if (resultLine.size > 1) {
                 val spaces =
                     maxLen?.minus(lineLen)
