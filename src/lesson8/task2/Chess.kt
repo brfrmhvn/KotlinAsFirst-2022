@@ -2,6 +2,8 @@
 
 package lesson8.task2
 
+import kotlin.math.abs
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -116,7 +118,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = when {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int = if (start.inside() && end.inside()) when {
     (start.row + start.column) % 2 != (end.column + end.row) % 2 -> -1
-    start != end -> if (start.row - end.row == start.column - end.column) 1 else 2
+    start != end -> if (abs(start.row - end.row) == abs(start.column - end.column)) 1 else 2
     else -> 0
 } else throw IllegalArgumentException("Клетка некорректна")
 
@@ -138,7 +140,24 @@ fun bishopMoveNumber(start: Square, end: Square): Int = if (start.inside() && en
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    var mid = Square(0, 0)
+    if (bishopMoveNumber(start, end) == 2) {
+        for (column in 1..8) {
+            for (row in 1..8) {
+                if (bishopMoveNumber(start, Square(column, row)) == 1) {
+                    if (bishopMoveNumber(Square(column, row), end) == 1) mid = Square(column, row)
+                }
+            }
+        }
+    }
+    return when {
+        bishopMoveNumber(start, end) == -1 -> emptyList()
+        bishopMoveNumber(start, end) == 0 -> listOf(start)
+        bishopMoveNumber(start, end) == 1 -> listOf(start, end)
+        else -> listOf(start, mid, end)
+    }
+}
 
 /**
  * Средняя (3 балла)
