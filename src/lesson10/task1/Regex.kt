@@ -3,6 +3,7 @@ package lesson10.task1
 import lesson10.task1.Expression.Operation.*
 import java.io.File
 import java.util.regex.Pattern
+import kotlin.math.pow
 
 // Урок 10: разбор синтаксически сложных выражений, алгебраические классы
 // Максимальное количество баллов = 15 (собственно, пока одна задача)
@@ -36,7 +37,7 @@ fun parseExpr(inputName: String, values: List<Int>): Map<Int, Int> {
 }
 
 fun String.parseExpr(): Expression {
-    val pattern = Pattern.compile("""x|\+|-|\*|/|\(|\)|\d+| +?|.+?""")
+    val pattern = Pattern.compile("""x|\+|-|\*|/|\(|\)|\^|\d+| +?|.+?""")
     val matcher = pattern.matcher(this)
     val groups = mutableListOf<String>()
     while (matcher.find()) {
@@ -72,19 +73,24 @@ sealed class Expression {
             PLUS -> {
                 left.calculate(x) + right.calculate(x)
             }
+
             MINUS -> {
                 left.calculate(x) - right.calculate(x)
             }
+
             TIMES -> {
                 left.calculate(x) * right.calculate(x)
             }
+
             DIV -> {
                 left.calculate(x) / right.calculate(x)
             }
+
             POW -> {
-                TODO()
+                left.calculate(x).toDouble().pow(right.calculate(x)).toInt()
             }
         }
+
         is Negate -> -arg.calculate(x)
     }
 }
@@ -107,6 +113,7 @@ class Parser(private val groups: List<String>) {
                     val right = parseItem()
                     left = Expression.Binary(left, op, right)
                 }
+
                 else -> return left
             }
         }
@@ -114,14 +121,15 @@ class Parser(private val groups: List<String>) {
     }
 
     private fun parseItem(): Expression {
-        var left = parseFactor()
+        var left = parseExponentiation()
         while (pos < groups.size) {
             when (val op = operationMap[groups[pos]]) {
                 TIMES, DIV -> {
                     pos++
-                    val right = parseFactor()
+                    val right = parseExponentiation()
                     left = Expression.Binary(left, op, right)
                 }
+
                 else -> return left
             }
         }
@@ -132,13 +140,14 @@ class Parser(private val groups: List<String>) {
         check(pos < groups.size) { "Unexpected expression end" }
         return when (val group = groups[pos++]) {
             "x" -> Expression.Variable
-            "-" -> Expression.Negate(parseFactor())
+            "-" -> Expression.Negate(parseExponentiation())
             "(" -> {
                 val arg = parseExpression()
                 val next = groups[pos++]
                 if (next == ")") arg
                 else throw IllegalStateException(") expected instead of $next")
             }
+
             else -> Expression.Constant(group.toInt())
         }
     }
@@ -151,8 +160,20 @@ class Parser(private val groups: List<String>) {
      * Кроме написания этой функции, вам придётся вызвать её в одной или двух
      * предыдущих функциях парсера, и поддержать операцию POW внутри функции calculate.
      */
-    internal fun parseExponentiation(): Expression {
-        TODO()
+    private fun parseExponentiation(): Expression {
+        var left = parseFactor()
+        while (pos < groups.size) {
+            when (val op = operationMap[groups[pos]]) {
+                POW -> {
+                    pos++
+                    val right = parseFactor()
+                    left = Expression.Binary(left, op, right)
+                }
+
+                else -> return left
+            }
+        }
+        return left
     }
 
     private val operationMap = mapOf("+" to PLUS, "-" to MINUS, "*" to TIMES, "/" to DIV, "^" to POW)
