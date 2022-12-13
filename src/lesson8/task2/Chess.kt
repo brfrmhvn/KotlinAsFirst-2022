@@ -141,23 +141,25 @@ fun bishopMoveNumber(start: Square, end: Square): Int = if (start.inside() && en
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
-    var mid = Square(0, 0)
-    if (bishopMoveNumber(start, end) == 2) {
-        for (column in 1..8) {
-            for (row in 1..8) {
-                if (bishopMoveNumber(start, Square(column, row)) == 1) {
-                    if (bishopMoveNumber(Square(column, row), end) == 1) mid = Square(column, row)
-                    break
+    return when {
+        bishopMoveNumber(start, end) == 2 -> {
+            var mid = Square(0, 0)
+            for (column in 1..8) {
+                for (row in 1..8) {
+                    if (bishopMoveNumber(start, Square(column, row)) == 1) {
+                        if (bishopMoveNumber(Square(column, row), end) == 1) mid = Square(column, row)
+                        break
+                    }
                 }
             }
+            listOf(start, mid, end)
         }
-    }
-    return when {
+
         bishopMoveNumber(start, end) == -1 -> emptyList()
         bishopMoveNumber(start, end) == 0 -> listOf(start)
-        bishopMoveNumber(start, end) == 1 -> listOf(start, end)
-        else -> listOf(start, mid, end)
+        else -> listOf(start, end)
     }
+
 }
 
 /**
