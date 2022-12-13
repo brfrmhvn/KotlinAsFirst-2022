@@ -142,7 +142,10 @@ fun bishopMoveNumber(start: Square, end: Square): Int = if (start.inside() && en
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     return when {
-        bishopMoveNumber(start, end) == 2 -> {
+        bishopMoveNumber(start, end) == -1 -> emptyList()
+        bishopMoveNumber(start, end) == 0 -> listOf(start)
+        bishopMoveNumber(start, end) == 1 -> listOf(start, end)
+        else -> {
             var mid = Square(0, 0)
             for (column in 1..8) {
                 for (row in 1..8) {
@@ -154,12 +157,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
             }
             listOf(start, mid, end)
         }
-
-        bishopMoveNumber(start, end) == -1 -> emptyList()
-        bishopMoveNumber(start, end) == 0 -> listOf(start)
-        else -> listOf(start, end)
     }
-
 }
 
 /**
