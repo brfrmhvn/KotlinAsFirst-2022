@@ -147,6 +147,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
             for (row in 1..8) {
                 if (bishopMoveNumber(start, Square(column, row)) == 1) {
                     if (bishopMoveNumber(Square(column, row), end) == 1) mid = Square(column, row)
+                    break
                 }
             }
         }
