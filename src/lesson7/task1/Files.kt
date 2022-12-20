@@ -397,10 +397,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 }
                 text.add(string)
             } else {
-                if (text.last() != "<p>") {
-                    text.add("</p>")
-                    text.add("<p>")
-                }
+                text.add("</p>")
+                text.add("<p>")
             }
         }
         text.add("</p>")
