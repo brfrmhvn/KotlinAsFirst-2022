@@ -2,6 +2,7 @@
 
 package lesson9.task1
 
+import ru.spbstu.wheels.allIndexed
 import java.lang.IllegalArgumentException
 
 // Урок 9: проектирование классов
@@ -56,33 +57,24 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
  */
 
 class MatrixImpl<E>(override val height: Int, override val width: Int, val e: E) : Matrix<E> {
-    private val map = mutableMapOf<Cell, E>()
+    private val matrixList = MutableList(height) { MutableList(width) { e } }
+    override fun get(row: Int, column: Int): E = matrixList[row][column]
 
-    init {
-        for (row in 1..width) {
-            for (column in 1..height) {
-                map[Cell(row, column)] = e
-            }
-        }
-    }
-
-    override fun get(row: Int, column: Int): E = map[Cell(row, column)]!!
-
-    override fun get(cell: Cell): E = map[cell]!!
+    override fun get(cell: Cell): E = matrixList[cell.row][cell.column]
 
     override fun set(row: Int, column: Int, value: E) {
-        map[Cell(row, column)] = value
+        matrixList[row][column] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        map[cell] = value
+        matrixList[cell.row][cell.column] = value
     }
 
     override fun equals(other: Any?) =
-        (other is MatrixImpl<*>) &&
-                (this.height == other.height) &&
-                (this.width == other.width) &&
-                (this.map == other.map)
+        other is Matrix<*> &&
+                this.height == other.height &&
+                this.width == other.width &&
+                this.matrixList.allIndexed { i, row -> row.allIndexed { k, elem -> other[i, k] == elem } }
 
     override fun toString(): String {
         val sb = StringBuilder()
@@ -101,7 +93,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, val e: E)
     override fun hashCode(): Int {
         var result = height
         result = 31 * result + width
-        result = 31 * result + map.hashCode()
+        result = 31 * result + (e?.hashCode() ?: 0)
+        result = 31 * result + matrixList.hashCode()
         return result
     }
 }
