@@ -365,7 +365,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                         if (s % 2 != 0) {
                             string = StringBuilder(string).insert(i.range.first + ks, "/").toString()
                             s++
-                            ks ++
+                            ks++
                         } else {
                             s++
                         }
@@ -397,8 +397,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
                 }
                 text.add(string)
             } else {
-                text.add("</p>")
-                text.add("<p>")
+                if (text.last() != "<p>") {
+                    text.add("</p>")
+                    text.add("<p>")
+                }
             }
         }
         text.add("</p>")
