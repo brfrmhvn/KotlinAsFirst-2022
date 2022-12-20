@@ -354,7 +354,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         var b = 0
         var it = 0
         File(inputName).bufferedReader().forEachLine { line ->
-            if (line.isNotEmpty()) {
+            if (line.trim().isNotEmpty()) {
                 var string = line
                 if (string.contains(Regex("""\~{2}"""))) string = Regex("""\~{2}""").replace(string, "<s>")
                 if (string.contains(Regex("""\*{2}"""))) string = Regex("""\*{2}""").replace(string, "<b>")
