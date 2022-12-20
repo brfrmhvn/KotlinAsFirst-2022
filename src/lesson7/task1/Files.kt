@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.StringBuilder
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -343,8 +344,74 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    File(outputName).bufferedWriter().use { writer ->
+        writer.write("<html>")
+        writer.newLine()
+        writer.write("<body>")
+        writer.newLine()
+        val text = mutableListOf<String>("<p>")
+        var s = 0
+        var b = 0
+        var it = 0
+        File(inputName).bufferedReader().forEachLine { line ->
+            if (line.isNotEmpty()) {
+                var string = line
+                if (string.contains(Regex("""\~{2}"""))) string = Regex("""\~{2}""").replace(string, "<s>")
+                if (string.contains(Regex("""\*{2}"""))) string = Regex("""\*{2}""").replace(string, "<b>")
+                if (string.contains(Regex("""\*"""))) string = Regex("""\*""").replace(string, "<i>")
+                if (string.contains("<s>")) {
+                    var ks = 1
+                    for (i in "<s>".toRegex().findAll(string, 0)) {
+                        if (s % 2 != 0) {
+                            string = StringBuilder(string).insert(i.range.first + ks, "/").toString()
+                            s++
+                            ks ++
+                        } else {
+                            s++
+                        }
+                    }
+                }
+                if (string.contains("<b>")) {
+                    var kb = 1
+                    for (i in "<b>".toRegex().findAll(string, 0)) {
+                        if (b % 2 != 0) {
+                            string = StringBuilder(string).insert(i.range.first + kb, "/").toString()
+                            b++
+                            kb++
+                        } else {
+                            b++
+                        }
+                    }
+                }
+                if (string.contains("<i>")) {
+                    var ki = 1
+                    for (i in "<i>".toRegex().findAll(string, 0)) {
+                        if (it % 2 != 0) {
+                            string = StringBuilder(string).insert(i.range.first + ki, "/").toString()
+                            it++
+                            ki++
+                        } else {
+                            it++
+                        }
+                    }
+                }
+                text.add(string)
+            } else {
+                text.add("</p>")
+                text.add("<p>")
+            }
+        }
+        text.add("</p>")
+        for (line in text) {
+            writer.write(line)
+            writer.newLine()
+        }
+        writer.write("</body>")
+        writer.newLine()
+        writer.write("</html>")
+    }
 }
+
 
 /**
  * Сложная (23 балла)
@@ -505,7 +572,6 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 -132
 ----
 3
-
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
  */
