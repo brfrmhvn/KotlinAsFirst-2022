@@ -2,6 +2,8 @@
 
 package lesson11.task1
 
+import kotlin.math.pow
+
 /**
  * Фабричный метод для создания комплексного числа из строки вида x+yi
  */
@@ -21,40 +23,52 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Конструктор из вещественного числа
      */
-    constructor(x: Double) : this(TODO(), TODO())
+    constructor(x: Double) : this(x, 0.0)
 
     /**
      * Сложение.
      */
-    operator fun plus(other: Complex): Complex = TODO()
+    operator fun plus(other: Complex): Complex = Complex(this.re + other.re, this.im + other.im)
 
     /**
      * Смена знака (у обеих частей числа)
      */
-    operator fun unaryMinus(): Complex = TODO()
+    operator fun unaryMinus(): Complex = Complex(-this.re, -this.im)
 
     /**
      * Вычитание
      */
-    operator fun minus(other: Complex): Complex = TODO()
+    operator fun minus(other: Complex): Complex = Complex(this.re - other.re, this.im - other.im)
 
     /**
      * Умножение
      */
-    operator fun times(other: Complex): Complex = TODO()
+    operator fun times(other: Complex): Complex =
+        Complex(this.re * other.re - this.im * other.im, this.im * other.re + this.re * other.im)
 
     /**
      * Деление
      */
-    operator fun div(other: Complex): Complex = TODO()
+    operator fun div(other: Complex): Complex =
+        Complex(
+            (this.re * other.re + this.im * other.im) / (other.im.pow(2) + other.re.pow(2)),
+            (this.im * other.re - this.re * other.im) / (other.im.pow(2) + other.re.pow(2))
+        )
 
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean = TODO()
+    override fun equals(other: Any?): Boolean = other is Complex && this.im == other.im && this.re == other.re
 
     /**
      * Преобразование в строку
      */
-    override fun toString(): String = TODO()
+    override fun toString() =
+        this.re.toString() + (if (this.im > 0) "+" + this.im.toString() else "-" + (-this.im).toString()) + "*i"
+
+    override fun hashCode(): Int {
+        var result = re.hashCode()
+        result = 31 * result + im.hashCode()
+        return result
+    }
 }
