@@ -7,7 +7,10 @@ import kotlin.math.pow
 /**
  * Фабричный метод для создания комплексного числа из строки вида x+yi
  */
-fun Complex(s: String): Complex = TODO()
+fun Complex(s: String): Complex {
+    val complex = s.replace("i", "").replace("+", " +").replace("-", " -").split(" ").map { it.toDouble() }
+    return Complex(complex.first(), complex.last())
+}
 
 /**
  * Класс "комплексное число".
@@ -58,13 +61,13 @@ class Complex(val re: Double, val im: Double) {
     /**
      * Сравнение на равенство
      */
-    override fun equals(other: Any?): Boolean = other is Complex && this.im == other.im && this.re == other.re
+    override fun equals(other: Any?): Boolean = other is Complex && im == other.im && re == other.re
 
     /**
      * Преобразование в строку
      */
     override fun toString() =
-        this.re.toString() + (if (this.im > 0) "+" + this.im.toString() else "-" + (-this.im).toString()) + "*i"
+        this.re.toString() + (if (this.im > 0) "+" + this.im.toString() else "-" + (-this.im).toString()) + "i"
 
     override fun hashCode(): Int {
         var result = re.hashCode()
